@@ -109,12 +109,19 @@ public class Main{
         System.out.println(fix34(fix3));
 
         int[] intList18 = {1, 2, 3, 2, 4, 5, 5, 6};
+        System.out.println(modes(intList18));
         int[] intList19 = {1, 2, 6, 2, 3, 4, 6, 5, 5, 6, 7};
+        System.out.println(modes(intList19));
         int[] intList20 = {1, 2, 1, 2, 4, 1, 2, 4, 1, 1, 3};
+        System.out.println(modes(intList20));
         int[] intList21 = {1, 2, 3, 4, 3, 2, 1, 4, 1, 2, 3};
+        System.out.println(modes(intList21));
         int[] intList22 = {1, 2, 3, 4, 5, 6};
+        System.out.println(modes(intList22));
         int[] intList23 = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 1, 2, 3, 4, 5, 6};
+        System.out.println(modes(intList23));
         int[] intList24 = {1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6};
+        System.out.println(modes(intList24));
         
 
 
@@ -446,78 +453,153 @@ public class Main{
    *  @param numList  numList of ints
    */
     public static ArrayList<Integer> modes(int[] numList){
-        // int mode1 = 0;
-        // int mode2 = 0;
-        // int modeduplicateCount = 0;
-        // ArrayList<Integer> countValues = new ArrayList<Integer>();
-        // ArrayList<Integer> numbers = new ArrayList<Integer>();
-        // ArrayList<Integer> modes = new ArrayList<Integer>();
-        // int count;
-        // int max = 0;
-        // for(int i = 0; i < numList.length; i++){
-        //     count = 0;
-        //     numbers.add(numList[i]);
-        //     for(int k = 0; k < numList.length; k++){
-        //         if(numList[i] == numList[k]){
-        //             count++;
-        //         }
-        //     }
-        //     countValues.add(count);
-        // }
-        // for(int i = 0; i < countValues.size(); i++){
-        //     for(int k = 0; k < numbers.size(); k++){
-        //         if(countValues.get(i)>modes.get(0)){
-        //             modes.add(numbers.get(k));
-        //             max = countValues.get(i);
-        //         }
-        //         if(countValues.get(i) == max && numbers.get(k)!=modes.get(0)){
-                    
-        //         }
-        //     }
-        // }
-        ArrayList<Integer> countValues = new ArrayList<>();
-        ArrayList<Integer> numbers = new ArrayList<>();
-        ArrayList<Integer> modes = new ArrayList<>();
-        int max = 0;
-
-        for (int i = 0; i < numList.length; i++) {
-            int count = 0;
-            boolean isDuplicate = false;
-            for (int j = 0; j < numbers.size(); j++) {
-                if (numList[i] == numbers.get(j)) {
-                    isDuplicate = true;
-                    break;
+        int mode1 = 0;
+        int mode2 = 0;
+        int modeduplicateCount = 0;
+        int maxCount = 0;
+        boolean wasRemoved = false;
+        
+        ArrayList<Integer> modes = new ArrayList<Integer>();
+        ArrayList<Integer> liststuff = new ArrayList<Integer>();
+        int count;
+        
+        for(int i = 0; i < numList.length; i++){
+            count = 0;
+            for(int j = 0; j < numList.length; j++){
+                if(numList[i] == numList[j]){
+                    count++;
                 }
+                
             }
-            if (!isDuplicate) {
-                for (int k = 0; k < numList.length; k++) {
-                    if (numList[i] == numList[k]) {
-                        count++;
-                    }
-                }
-                numbers.add(numList[i]);
-                countValues.add(count);
+            liststuff.add(numList[i]);
+            liststuff.add(count);
+        }
+        for(int i = 0; i < liststuff.size(); i+=2){
+             for(int k = i+2; k < liststuff.size(); k+=2){
+                 if(liststuff.get(i) == liststuff.get(k)){
+                     liststuff.remove(k);
+                     liststuff.remove(k);
+                 }
+             }
+         }
+         for(int i = 1; i < liststuff.size(); i+=2){
+            if(liststuff.get(i) > maxCount){
+                maxCount = liststuff.get(i);
             }
-        }
-
-        for (int count : countValues) {
-            if (count > max) {
-                max = count;
-            }
-        }
-
-        for (int i = 0; i < countValues.size(); i++) {
-            if (countValues.get(i) == max) {
-                modes.add(numbers.get(i));
-            }
-        }
-
-        if (modes.size() == numbers.size()) {
-            return new ArrayList<>();
-        }
-
-        return modes;
+         }
+          for(int i = 1; i < liststuff.size(); i+=2){
+             if(liststuff.get(i) < maxCount){
+                 liststuff.remove(i);
+                 liststuff.remove(i-1);
+                 wasRemoved = true;
+                 i-=2;
+             }
+          }
+         
+         
+         if(!wasRemoved){
+            return new ArrayList();
+         }
+         for(int i = 1; i < liststuff.size(); i+=2){
+             liststuff.remove(i);
+            i-=1;
+          }
+          if(liststuff.get(0) ==1 && liststuff.get(1) == 1){
+            liststuff.remove(0);
+          }
+        return liststuff;
     }
+    
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // for(int i = 0; i < numList.length; i++){
+        //      count = 0;
+        //      numbers.add(numList[i]);
+        //      for(int k = 0; k < numList.length; k++){
+        //          if(numList[i] == numList[k]){
+        //              count++;
+        //          }
+        //      }
+        //      countValues.add(count);
+        //  }
+        //  for(int i = 0; i < countValues.size(); i++){
+        //      for(int k = 0; k < numbers.size(); k++){
+        //          if(countValues.get(i)>max){
+        //              modes.add(numbers.get(k));
+        //              max = countValues.get(i);
+        //          }
+        //          if(countValues.get(i) == max && numbers.get(k)!=max){
+        //             modes.add(numbers.get(k));
+        //          }
+        //      }
+        //  }
+        //  if(modes.size() == numbers.size()){
+        //     modes.clear();
+        //  }
+        //  return modes;
+        }
+         
+         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         // ArrayList<Integer> countValues = new ArrayList<>();
+        // ArrayList<Integer> numbers = new ArrayList<>();
+        // ArrayList<Integer> modes = new ArrayList<>();
+        // int max = 0;
+
+        // for (int i = 0; i < numList.length; i++) {
+        //     int count = 0;
+        //     boolean Duplicate = false;
+        //     for (int j = 0; j < numbers.size(); j++) {
+        //         if (numList[i] == numbers.get(j)) {
+        //             Duplicate = true;
+        //             break;
+        //         }
+        //     }
+        //     if (!Duplicate) {
+        //         for (int k = 0; k < numList.length; k++) {
+        //             if (numList[i] == numList[k]) {
+        //                 count++;
+        //             }
+        //         }
+        //         numbers.add(numList[i]);
+        //         countValues.add(count);
+        //     }
+        // }
+
+        // for (int count : countValues) {
+        //     if (count > max) {
+        //         max = count;
+        //     }
+        // }
+
+        // for (int i = 0; i < countValues.size(); i++) {
+        //     if (countValues.get(i) == max) {
+        //         modes.add(numbers.get(i));
+        //     }
+        // }
+
+        // if (modes.size() == numbers.size()) {
+        //     return new ArrayList<>();
+        // }
+
+        // return modes;
+    
 
         
        
@@ -547,4 +629,4 @@ public class Main{
         
     // }
     // return modes;
-    }
+    
